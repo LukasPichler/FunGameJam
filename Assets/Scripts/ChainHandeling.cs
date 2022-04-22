@@ -6,8 +6,9 @@ public class ChainHandeling : MonoBehaviour
 {
     public class Feder
     {
-        public Feder(GameObject point1, bool isFixed1, Rigidbody rigid1, GameObject point2, bool isFixed2, Rigidbody rigid2, float federkonstante, float federLength)
+        public Feder(bool player,GameObject point1, bool isFixed1, Rigidbody rigid1, GameObject point2, bool isFixed2, Rigidbody rigid2, float federkonstante, float federLength)
         {
+            Player = player;
             Point1 = point1;
             Point2 = point2;
             IsFixed1 = isFixed1;
@@ -18,6 +19,7 @@ public class ChainHandeling : MonoBehaviour
             FederLength = federLength;
         }
 
+        public bool Player;
         public GameObject Point1;
         public bool IsFixed1;
         public Rigidbody Rigid1;
@@ -27,7 +29,14 @@ public class ChainHandeling : MonoBehaviour
         public float Federkonstante;
         public float FederLength;
     }
-    
+
+
+    private LineRenderer lineRenderer;
+
+    [SerializeField]
+    private float _untereGrenze = -0.4f;
+    [SerializeField]
+    private float _obereGrenze = -2.5f;
 
     [SerializeField]
     private int _numberOfPoints=2;
@@ -42,11 +51,20 @@ public class ChainHandeling : MonoBehaviour
     private float _federkonstante=1000;
 
     [SerializeField]
+    private float _federLength;
+
+    [SerializeField]
     private GameObject _chainLinkPrefab;
 
     private GameObject[] _points;
 
     private Feder[] _rope;
+
+    private void Awake()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.positionCount = _numberOfPoints;
+    }
 
     private void Start()
     {
@@ -58,35 +76,62 @@ public class ChainHandeling : MonoBehaviour
         CreateFedern();
     }
 
-
+    private void Update()
+    {
+        for(int i=0; i<_points.Length; i++)
+        {
+            lineRenderer.SetPosition(i, _points[i].transform.position);
+        }
+        
+    }
 
 
     private void FixedUpdate()
     {
 
-        for (int i=0; i < _rope.Length; i++)
+        FederBerechnung();
+    }
+
+
+    private void FederBerechnung()
+    {
+        for (int i = 0; i < _rope.Length; i++)
         {
             Feder feder = _rope[i];
             Vector3 distance = feder.Point1.transform.position - feder.Point2.transform.position;
-            Vector3 force = feder.Federkonstante* (feder.FederLength - distance.magnitude) * distance.normalized;
-            if (!feder.IsFixed1)
+            float relativeDistance = (feder.FederLength - distance.magnitude);
+            if (relativeDistance < 0f)
             {
-                feder.Rigid1.velocity += (Time.deltaTime * Time.deltaTime * force);
+
+                Vector3 force = feder.Federkonstante * relativeDistance * distance.normalized;
+
+                if (!feder.IsFixed1)
+                {
+
+                    feder.Rigid1.velocity += (Time.deltaTime * Time.deltaTime * force);
+                }
+                if (!feder.IsFixed2)
+                {
+                    if (feder.Player)
+                    {
+                        if (!(relativeDistance < _untereGrenze && relativeDistance > _obereGrenze))
+                        {
+                            force = Vector3.zero;
+                        }
+                    }
+                    feder.Rigid2.velocity += (Time.deltaTime * Time.deltaTime * -force);
+                }
             }
-            if (!feder.IsFixed2)
-            {
-                feder.Rigid2.velocity += (Time.deltaTime * Time.deltaTime * -force);
-            }
+
         }
     }
-
 
     private void CreateFedern()
     {
         for (int i = 0; i < _numberOfPoints - 1; i++)
         {
-            float distance = (_points[i].transform.position - _points[i+1].transform.position).magnitude;
-            Feder newFeder = new Feder(_points[i], i == 0, _points[i].GetComponent<Rigidbody>(), _points[i+1], false, _points[i+1].GetComponent<Rigidbody>(), _federkonstante,distance);
+            float distance = _federLength/_numberOfPoints;
+            Feder newFeder = new Feder(i==_numberOfPoints-2,_points[i], i == 0, _points[i].GetComponent<Rigidbody>(), _points[i+1], false, _points[i+1].GetComponent<Rigidbody>(), _federkonstante,distance);
             _rope[i] = newFeder;
         }
     }
