@@ -51,7 +51,7 @@ VisualEffect:
       m_Array:
       - m_Value: 1
         m_Name: SoftParticlesFactor
-        m_Overridden: 0
+        m_Overridden: 1
       - m_Value: 2.5
         m_Name: MaxSizeSmoke
         m_Overridden: 0
@@ -84,7 +84,7 @@ VisualEffect:
       - m_Value: {x: 2, y: 1}
         m_Name: FlipBookSizeFlames
         m_Overridden: 1
-      - m_Value: {x: 1, y: 1}
+      - m_Value: {x: 2, y: 1}
         m_Name: FlipBookSizeSmoke
         m_Overridden: 1
     m_Vector3f:
@@ -174,7 +174,7 @@ VisualEffect:
       - m_Value: {fileID: 2800000, guid: dc96274ec8228484db18973e9dbfb226, type: 3}
         m_Name: FlameTexture
         m_Overridden: 1
-      - m_Value: {fileID: 2800000, guid: dc96274ec8228484db18973e9dbfb226, type: 3}
+      - m_Value: {fileID: 2800000, guid: a008fa60b0e9e504da84f84f54f6e172, type: 3}
         m_Name: SmokeTexture
         m_Overridden: 1
     m_Bool:
