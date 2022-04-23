@@ -12,7 +12,7 @@ public class BasicEnemieMoveMent : MonoBehaviour
     private float _rotationSpeed;
 
     [SerializeField]
-    private Transform _path;
+    public Transform _path;
 
     private int _currentPoint = 0;
 

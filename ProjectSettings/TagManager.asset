@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - World
   - NoMask
+  - Enemy_Person
+  - Enemy_Ghost
   layers:
   - Default
   - TransparentFX
@@ -33,7 +35,7 @@ TagManager:
   - Camera2
   - Camera3
   - Camera4
-  - 
+  - DamageZone
   - 
   - 
   - 

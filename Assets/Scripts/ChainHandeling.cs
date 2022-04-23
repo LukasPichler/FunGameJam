@@ -118,6 +118,10 @@ public class ChainHandeling : MonoBehaviour
                         {
                             force = Vector3.zero;
                         }
+                        else
+                        {
+                            feder.Rigid2.AddForce(Time.deltaTime * Time.deltaTime * -force);
+                        }
                     }
                     feder.Rigid2.velocity += (Time.deltaTime * Time.deltaTime * -force);
                 }
@@ -130,7 +134,7 @@ public class ChainHandeling : MonoBehaviour
     {
         for (int i = 0; i < _numberOfPoints - 1; i++)
         {
-            float distance = _federLength/_numberOfPoints;
+            float distance = _federLength/(float)_numberOfPoints;
             Feder newFeder = new Feder(i==_numberOfPoints-2,_points[i], i == 0, _points[i].GetComponent<Rigidbody>(), _points[i+1], false, _points[i+1].GetComponent<Rigidbody>(), _federkonstante,distance);
             _rope[i] = newFeder;
         }

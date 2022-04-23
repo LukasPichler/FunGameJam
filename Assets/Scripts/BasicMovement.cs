@@ -29,10 +29,10 @@ public class BasicMovement : MonoBehaviour
     void moveCharacter(Vector3 direction)
     {
         Vector3 velocity = direction * Speed;
-        if(Rb.velocity.magnitude <= velocity.magnitude)
+        if(Rb.velocity.magnitude <= 0.8f*velocity.magnitude)
         {
 
-            Rb.velocity = velocity;
+            Rb.velocity += velocity;
         }
         
     }

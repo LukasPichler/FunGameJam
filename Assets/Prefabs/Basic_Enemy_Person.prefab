@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 2235661133998019080}
   - component: {fileID: 2235661133998019081}
   m_Layer: 7
-  m_Name: Basic_Enemy
-  m_TagString: Untagged
+  m_Name: Basic_Enemy_Person
+  m_TagString: Enemy_Person
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,5 +127,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
-  _rotationSpeed: 3
+  _rotationSpeed: 0.5
   _path: {fileID: 0}
