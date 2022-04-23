@@ -66,10 +66,11 @@ public class EnemyDamageDeath : MonoBehaviour
         {
             playDeathAnimation(electroColor);
         }
+        
     }
 
     private void playDeathAnimation(Color color)
     {
-        throw new NotImplementedException();
+        gameObject.GetComponent<Renderer>().material.SetColor("_EdgeColor", color);
     }
 }
