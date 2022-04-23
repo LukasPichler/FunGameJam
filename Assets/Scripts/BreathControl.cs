@@ -5,11 +5,15 @@ using UnityEngine.VFX;
 
 public class BreathControl : MonoBehaviour
 {
-    public VisualEffect breath;
+    public VisualEffect fireBreath;
+    public VisualEffect iceBreath;
+    public VisualEffect electroBreath;
     
     void Start()
     {
-        breath.Stop();
+        fireBreath.Stop();
+        iceBreath.Stop();
+        electroBreath.Stop();
     }
 
 
@@ -17,12 +21,30 @@ public class BreathControl : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            breath.Play();
+            fireBreath.Play();
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            breath.Stop();
+            fireBreath.Stop();
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            iceBreath.Play();
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            iceBreath.Stop();
+        }
+        if (Input.GetMouseButtonDown(2))
+        {
+            electroBreath.Play();
+        }
+
+        if (Input.GetMouseButtonUp(2))
+        {
+            electroBreath.Stop();
         }
     }
 }
