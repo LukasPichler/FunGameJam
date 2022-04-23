@@ -1,5 +1,7 @@
 
 using System;
+using System.Collections;
+using System.Security.Cryptography;
 using MoreMountains.TopDownEngine;
 using UnityEngine;
 
@@ -14,8 +16,13 @@ public class EnemyDamageDeath : MonoBehaviour
     public Color fireColor;
     public Color iceColor;
     public Color electroColor;
+    public float timeToDissolve = 3f;
+    
     
     private float _currentHealth;
+    private bool _isDead = false;
+    private float _clock=0f;
+    private Renderer _renderer;
     
     //TODO shader/material to play
     
@@ -24,29 +31,47 @@ public class EnemyDamageDeath : MonoBehaviour
     {
         _currentHealth = health;
     }
-    
+
+    private void Update()
+    {
+        if (_isDead)
+        {
+            _clock += Time.deltaTime;
+            _renderer.material.SetFloat("_CutoffHeight",Mathf.Lerp(fullDissolve, noDissolve, _clock/timeToDissolve));
+            if (_clock / timeToDissolve >= 1)
+            {
+                Destroy(gameObject);
+            }
+            //TODO or deathscream here
+        }
+    }
+
+
     public void enemyHit(GameObject projectile)
     {
-        //TODO damage Enemy
-        damageEnemy(projectile.tag);
-        //TODO death animation 
-        if (_currentHealth <= 0)
+        if (!_isDead)
         {
-            enemyDeath(projectile.tag);
+            damageEnemy(projectile.tag);
+            if (_currentHealth <= 0)
+            {
+                enemyDeath(projectile.tag);
+            }
         }
+
+       
     }
 
     private void damageEnemy(string projectileTag)
     {
-        if (tag. Equals("FireProj"))
+        if (projectileTag. Equals("FireProj"))
         {
             _currentHealth -= fireDmg;
         }
-        if (tag.Equals("IceProj"))
+        if (projectileTag.Equals("IceProj"))
         {
             _currentHealth -= iceDmg;
         }
-        if (tag.Equals("ElectroProj"))
+        if (projectileTag.Equals("ElectroProj"))
         {
             _currentHealth -= electroDmg;
         }
@@ -54,23 +79,21 @@ public class EnemyDamageDeath : MonoBehaviour
 
     private void enemyDeath(string tag)
     {
+        _isDead = true;
+        _renderer = gameObject.GetComponent<Renderer>();
         if (tag. Equals("FireProj"))
         {
-            playDeathAnimation(fireColor);
+            _renderer.material.SetColor("_EdgeColor", fireColor);
         }
         if (tag.Equals("IceProj"))
         {
-            playDeathAnimation(iceColor);
+            _renderer.material.SetColor("_EdgeColor", iceColor);
         }
         if (tag.Equals("ElectroProj"))
         {
-            playDeathAnimation(electroColor);
+            _renderer.material.SetColor("_EdgeColor", electroColor);
         }
         
     }
-
-    private void playDeathAnimation(Color color)
-    {
-        gameObject.GetComponent<Renderer>().material.SetColor("_EdgeColor", color);
-    }
+    
 }

@@ -131,5 +131,9 @@ MonoBehaviour:
   fireDmg: 2
   iceDmg: 2
   electroDmg: 2
-  fullDissolve: 3.5
-  noDissolve: 2.5
+  fullDissolve: 1
+  noDissolve: -2.5
+  fireColor: {r: 1, g: 0, b: 0, a: 1}
+  iceColor: {r: 0.26954174, g: 0.7361906, b: 1, a: 1}
+  electroColor: {r: 1, g: 0.9133749, b: 0, a: 1}
+  timeToDissolve: 1

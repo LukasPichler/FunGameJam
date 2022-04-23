@@ -11,6 +11,9 @@ TagManager:
   - NoMask
   - Enemy_Person
   - Enemy_Ghost
+  - FireProj
+  - IceProj
+  - ElectroProj
   layers:
   - Default
   - TransparentFX

@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: -2276922101898620095}
   m_Layer: 0
   m_Name: IceProjectile
-  m_TagString: Untagged
+  m_TagString: IceProj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
