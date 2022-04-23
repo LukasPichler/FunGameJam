@@ -17,6 +17,9 @@ public class BasicMovement : MonoBehaviour
     void Update()
     {
         Movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+
+        Quaternion rotTarget = Quaternion.LookRotation(Movement);
+        transform.localRotation = rotTarget;
     }
 
 

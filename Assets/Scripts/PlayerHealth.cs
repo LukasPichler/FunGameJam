@@ -17,6 +17,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]
     private float slowDownTime = 0.1f;
 
+    [SerializeField]
+    private MoreMountains.Feedbacks.MMFeedbacks damageFeedback;
+
     private float normalTimeScale;
 
     private void Awake()
@@ -26,6 +29,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void ReduceLifeBy(int reduction)
     {
+        if (lifes > 0)
+        {
+            damageFeedback?.PlayFeedbacks();
+        }
         lifes -= reduction;
         if (lifes < 0)
         {
