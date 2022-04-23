@@ -17,7 +17,10 @@ public class BreathControl : MonoBehaviour
     public GameObject fireStart;
     public GameObject iceStart;
     public GameObject electroStart;
-    
+
+    private float _timeToFireFire = 0;
+    private float _timeToFireIce = 0;
+    private float _timeToFireElectro = 0;
     void Start()
     {
         fireBreath.Stop();
@@ -26,8 +29,7 @@ public class BreathControl : MonoBehaviour
     }
 
 
-    void Update()
-    {
+    void Update(){
         if (Input.GetMouseButtonDown(0))
         {
             fireBreath.Play();
@@ -59,23 +61,25 @@ public class BreathControl : MonoBehaviour
         {
             electroBreath.Stop();
         }
-    }
-
-    public void FixedUpdate()
-    {
-        if (Input.GetMouseButton(0))
+        
+        if (Input.GetMouseButton(0)&&Time.time>=_timeToFireFire)
         {
+            _timeToFireFire = Time.time + 1 / fireProjectile.GetComponent<ProjectileMovement>().fireRate;
             SpawnProjectile(fireProjectile,fireStart);
         }
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1)&&Time.time>=_timeToFireIce)
         {
+            _timeToFireIce = Time.time + 1 / iceProjectile.GetComponent<ProjectileMovement>().fireRate;
             SpawnProjectile(iceProjectile,iceStart);
         }
-        if (Input.GetMouseButton(2))
+        if (Input.GetMouseButton(2)&&Time.time>=_timeToFireElectro)
         {
+            _timeToFireElectro = Time.time + 1 / electroProjectile.GetComponent<ProjectileMovement>().fireRate;
             SpawnProjectile(electroProjectile,electroStart);
         }
     }
+
+
     
     
     public void SpawnProjectile(GameObject projectile, GameObject startPoint)

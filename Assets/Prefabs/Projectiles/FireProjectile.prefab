@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4974014025918799233}
   - component: {fileID: 6120218787263603276}
+  - component: {fileID: -3742297359022435057}
   m_Layer: 0
   m_Name: FireProjectile
   m_TagString: Untagged
@@ -45,8 +46,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  fireRate: 1
-  lifeTime: 0
+  fireRate: 7
+  maxLifeTime: 1.1
+--- !u!136 &-3742297359022435057
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894641470609629754}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.05
+  m_Height: 0.2
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4294836560464872797
 GameObject:
   m_ObjectHideFlags: 0
