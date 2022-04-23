@@ -18,6 +18,25 @@ public class BreathControl : MonoBehaviour
     public GameObject iceStart;
     public GameObject electroStart;
 
+    [SerializeField]
+    private Transform _fuelScale;
+    [SerializeField]
+    private float _fuelPerSec = 30f;
+    [SerializeField]
+    private float _fuelRefillPerSec = 10f;
+    private float _maxFuel = 100f;
+    private float _currentFuel = 100f;
+    private bool _isBreathing = false;
+    [SerializeField]
+    private float _lockTime=0.5f;
+    private float _clock=0f;
+    [SerializeField]
+    private AudioSource _flameSource;
+    [SerializeField]
+    private AudioSource _iceSource;
+    [SerializeField]
+    private AudioSource _electroSource;
+
     private float _timeToFireFire = 0;
     private float _timeToFireIce = 0;
     private float _timeToFireElectro = 0;
@@ -30,57 +49,134 @@ public class BreathControl : MonoBehaviour
 
 
     void Update(){
-        if (Input.GetMouseButtonDown(0))
+        _isBreathing = false;
+        _fuelScale.localScale = new Vector3(_currentFuel / 100f,_fuelScale.localScale.y,_fuelScale.localScale.z);
+
+        InputButtonUp();
+        _clock += Time.deltaTime;
+        if (_clock > _lockTime)
         {
-            fireBreath.Play();
-            SpawnProjectile(fireProjectile,fireStart);
+            if (_currentFuel > 0)
+            {
+                InputButtonDown();
+                InputButton();
+                InputFuelButton();
+
+            }
+            else
+            {
+                _clock = 0f;
+            }
         }
-        if (Input.GetMouseButtonUp(0))
+    
+        if (!_isBreathing)
         {
-            fireBreath.Stop();
-        }
-        
-        
-        if (Input.GetMouseButtonDown(1))
-        {
-            iceBreath.Play();
-            SpawnProjectile(iceProjectile,iceStart);
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            iceBreath.Stop();
-        }
-        
-        
-        if (Input.GetMouseButtonDown(2))
-        {
-            electroBreath.Play();
-            SpawnProjectile(electroProjectile,electroStart);
-        }
-        if (Input.GetMouseButtonUp(2))
-        {
-            electroBreath.Stop();
-        }
-        
-        if (Input.GetMouseButton(0)&&Time.time>=_timeToFireFire)
-        {
-            _timeToFireFire = Time.time + 1 / fireProjectile.GetComponent<ProjectileMovement>().fireRate;
-            SpawnProjectile(fireProjectile,fireStart);
-        }
-        if (Input.GetMouseButton(1)&&Time.time>=_timeToFireIce)
-        {
-            _timeToFireIce = Time.time + 1 / iceProjectile.GetComponent<ProjectileMovement>().fireRate;
-            SpawnProjectile(iceProjectile,iceStart);
-        }
-        if (Input.GetMouseButton(2)&&Time.time>=_timeToFireElectro)
-        {
-            _timeToFireElectro = Time.time + 1 / electroProjectile.GetComponent<ProjectileMovement>().fireRate;
-            SpawnProjectile(electroProjectile,electroStart);
+            _currentFuel = Mathf.Min(_maxFuel, _currentFuel + Time.deltaTime*_fuelRefillPerSec);
         }
     }
 
+    private void InputButtonUp()
+    {
+        if (_currentFuel == 0 || Input.GetMouseButtonUp(0))
+        {
+            _flameSource.Stop();
+            fireBreath.Stop();
+        }
 
-    
+        if (_currentFuel == 0 || Input.GetMouseButtonUp(1))
+        {
+            _iceSource.Stop();
+            iceBreath.Stop();
+        }
+
+
+        if (_currentFuel == 0 || Input.GetMouseButtonUp(2))
+        {
+            _electroSource.Stop();
+            electroBreath.Stop();
+        }
+    }
+
+    private void InputButtonDown()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            fireBreath.Play();
+            SpawnProjectile(fireProjectile, fireStart);
+        }
+
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            iceBreath.Play();
+            SpawnProjectile(iceProjectile, iceStart);
+        }
+
+
+        if (Input.GetMouseButtonDown(2))
+        {
+            electroBreath.Play();
+            SpawnProjectile(electroProjectile, electroStart);
+        }
+    }
+
+    private void InputButton()
+    {
+        if (Input.GetMouseButton(0) && Time.time >= _timeToFireFire)
+        {
+            if (!_flameSource.isPlaying)
+            {
+                _flameSource.Play();
+            }
+            fireBreath.Play();
+            _timeToFireFire = Time.time + 1 / fireProjectile.GetComponent<ProjectileMovement>().fireRate;
+            SpawnProjectile(fireProjectile, fireStart);
+        }
+        if (Input.GetMouseButton(1) && Time.time >= _timeToFireIce)
+        {
+            if (!_iceSource.isPlaying)
+            {
+                _iceSource.Play();
+            }
+            iceBreath.Play();
+            _timeToFireIce = Time.time + 1 / iceProjectile.GetComponent<ProjectileMovement>().fireRate;
+            SpawnProjectile(iceProjectile, iceStart);
+        }
+        if (Input.GetMouseButton(2) && Time.time >= _timeToFireElectro)
+        {
+            if (!_electroSource.isPlaying)
+            {
+                _electroSource.Play();
+            }
+            electroBreath.Play();
+            _timeToFireElectro = Time.time + 1 / electroProjectile.GetComponent<ProjectileMovement>().fireRate;
+            SpawnProjectile(electroProjectile, electroStart);
+        }
+    }
+
+    private void InputFuelButton()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            _isBreathing = true;
+            ReduceFuel();
+        }
+        if (Input.GetMouseButton(1))
+        {
+            _isBreathing = true;
+            ReduceFuel();
+        }
+        if (Input.GetMouseButton(2))
+        {
+            _isBreathing = true;
+            ReduceFuel();
+        }
+    }
+
+    private void ReduceFuel()
+    {
+        _currentFuel = Mathf.Max(0,_currentFuel - Time.deltaTime*_fuelPerSec);
+    }
     
     public void SpawnProjectile(GameObject projectile, GameObject startPoint)
     {

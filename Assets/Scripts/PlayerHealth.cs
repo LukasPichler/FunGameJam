@@ -15,30 +15,36 @@ public class PlayerHealth : MonoBehaviour
     private GameObject deathScreen;
 
     [SerializeField]
+    private MoreMountains.Feedbacks.MMTimeManager _timeManager;
+
+    [SerializeField]
     private float slowDownTime = 0.1f;
+
+    private bool dead = false;
 
     [SerializeField]
     private MoreMountains.Feedbacks.MMFeedbacks damageFeedback;
 
-    private float normalTimeScale;
-
-    private void Awake()
+    private void Update()
     {
-        normalTimeScale = Time.timeScale; 
+        if (dead)
+        {
+            _timeManager.SetTimescaleTo(slowDownTime);
+        }
     }
 
     public void ReduceLifeBy(int reduction)
     {
-        if (lifes > 0)
+        if (!dead && lifes > 0)
         {
             damageFeedback?.PlayFeedbacks();
         }
         lifes -= reduction;
-        if (lifes < 0)
+        if (!dead && lifes < 0)
         {
             lifes = 0;
             deathScreen.SetActive(true);
-            Time.timeScale *= slowDownTime;
+            dead = true;
         }
         ChangeLife();
     }

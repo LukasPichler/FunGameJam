@@ -17,9 +17,12 @@ public class BasicMovement : MonoBehaviour
     void Update()
     {
         Movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if(Movement.magnitude > 0.1f)
+        {
+            Quaternion rotTarget = Quaternion.LookRotation(Movement);
+            transform.localRotation = rotTarget;
 
-        Quaternion rotTarget = Quaternion.LookRotation(Movement);
-        transform.localRotation = rotTarget;
+        }
     }
 
 
@@ -36,6 +39,10 @@ public class BasicMovement : MonoBehaviour
         {
 
             Rb.velocity += velocity;
+        }
+        else
+        {
+            Rb.velocity *= 0.8f;
         }
         
     }
