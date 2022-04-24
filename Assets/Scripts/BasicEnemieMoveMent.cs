@@ -19,6 +19,7 @@ public class BasicEnemieMoveMent : MonoBehaviour
     private Rigidbody _rb;
 
     private List<Transform> _pathPoints = new List<Transform>();
+    
 
     private void Awake()
     {
@@ -50,6 +51,10 @@ public class BasicEnemieMoveMent : MonoBehaviour
         if (distance.magnitude < 0.5f)
         {
             _currentPoint++;
+        }
+        if (_currentPoint >= _pathPoints.Count)
+        {
+            _currentPoint = _pathPoints.Count - 1;
         }
     }
 

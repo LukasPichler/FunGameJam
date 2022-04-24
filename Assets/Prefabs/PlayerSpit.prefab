@@ -290,7 +290,7 @@ MonoBehaviour:
   electroStart: {fileID: 6135058297379080642}
   _fuelScale: {fileID: 0}
   _fuelPerSec: 30
-  _fuelRefillPerSec: 10
+  _fuelRefillPerSec: 40
   _lockTime: 1.5
   _flameSource: {fileID: 6501047331859867762}
   _iceSource: {fileID: 2651003429488727056}

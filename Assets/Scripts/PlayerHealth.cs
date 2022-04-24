@@ -9,6 +9,12 @@ public class PlayerHealth : MonoBehaviour
     private TextMeshProUGUI text;
 
     [SerializeField]
+    private TextMeshProUGUI _score;
+    private float _scoreMultiplier = 100f;
+
+    private float _points;
+
+    [SerializeField]
     private int lifes=3;
 
     [SerializeField]
@@ -30,6 +36,10 @@ public class PlayerHealth : MonoBehaviour
         if (dead)
         {
             _timeManager.SetTimescaleTo(slowDownTime);
+        }
+        else{
+            _points += Time.deltaTime*_scoreMultiplier;
+            _score.text = "Score:" + (int)_points;
         }
     }
 

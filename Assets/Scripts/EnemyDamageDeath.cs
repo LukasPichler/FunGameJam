@@ -17,15 +17,29 @@ public class EnemyDamageDeath : MonoBehaviour
     public Color iceColor;
     public Color electroColor;
     public float timeToDissolve = 3f;
-    
-    
+
+    [SerializeField]
+    private Material _desolveMaterial;
+
+    [SerializeField]
+    private SkinnedMeshRenderer _renderer;
+
+    [SerializeField]
+    private MoreMountains.Feedbacks.MMFeedbacks _damageFeedback;
+    [SerializeField]
+    private MoreMountains.Feedbacks.MMFeedbacks _deathFeedback;
+
+    private MoreMountains.Tools.MMHealthBar _healthBar;
     private float _currentHealth;
     private bool _isDead = false;
     private float _clock=0f;
-    private Renderer _renderer;
-    
+
     //TODO shader/material to play
-    
+
+    private void Awake()
+    {
+        _healthBar = GetComponent<MoreMountains.Tools.MMHealthBar>();
+    }
 
     void Start()
     {
@@ -36,6 +50,12 @@ public class EnemyDamageDeath : MonoBehaviour
     {
         if (_isDead)
         {
+            if (_clock == 0)
+            {
+                _renderer.material = _desolveMaterial;
+                _deathFeedback.PlayFeedbacks();
+                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            }
             _clock += Time.deltaTime;
             _renderer.material.SetFloat("_CutoffHeight",Mathf.Lerp(fullDissolve, noDissolve, _clock/timeToDissolve));
             if (_clock / timeToDissolve >= 1)
@@ -51,14 +71,37 @@ public class EnemyDamageDeath : MonoBehaviour
     {
         if (!_isDead)
         {
+            float healBefore = _currentHealth;
             damageEnemy(projectile.tag);
+            if (_healthBar != null)
+            {
+                _healthBar.UpdateBar(_currentHealth, 0f, health, true);
+            }
             if (_currentHealth <= 0)
             {
                 enemyDeath(projectile.tag);
             }
+            else if(healBefore!= _currentHealth)
+            {
+
+                _damageFeedback.PlayFeedbacks();
+                StartCoroutine(FreezeForSeconds(1f));
+            }
         }
 
        
+    }
+
+
+    private IEnumerator FreezeForSeconds(float sec)
+    {
+
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        yield return new WaitForSeconds(sec);
+        if (!_isDead)
+        {
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        }
     }
 
     private void damageEnemy(string projectileTag)
@@ -80,7 +123,6 @@ public class EnemyDamageDeath : MonoBehaviour
     private void enemyDeath(string tag)
     {
         _isDead = true;
-        _renderer = gameObject.GetComponent<Renderer>();
         if (tag. Equals("FireProj"))
         {
             _renderer.material.SetColor("_EdgeColor", fireColor);

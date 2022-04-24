@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/StartScreen 1.unity
+    path: Assets/Scenes/Menu.unity
     guid: 860bc82f52f5bf740a1b5b7fb5904ffd
   - enabled: 1
     path: Assets/Scenes/Lvl01.unity
@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Thirdparty/TopDownEngine/ThirdParty/MoreMountains/MMTools/Tools/MMSceneLoading/LoadingScreens/LoadingScreen.unity
     guid: 888394d52616e5e42b3b54c3f2bbd3eb
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: 5d0155d221cdba5468dd889f23601999
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 97e9a5d267ddf6f41bf09b0ee94f95a5
   m_configObjects: {}

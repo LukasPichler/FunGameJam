@@ -13,7 +13,8 @@ public class EnterDamageZone : MonoBehaviour
     {
         if(other.tag == EnemyTag)
         {
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
+            other.gameObject.transform.GetChild(2).GetComponent<MoreMountains.Feedbacks.MMFeedbacks>().PlayFeedbacks();
             playerHealth.ReduceLifeBy(1);
         }
     }

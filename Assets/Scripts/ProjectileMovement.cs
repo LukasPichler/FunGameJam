@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Lifetime;
 using UnityEngine;
 
 public class ProjectileMovement : MonoBehaviour
@@ -39,7 +38,7 @@ public class ProjectileMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Enemy_Ghost"))
+        if (other.tag.Equals("Enemy_Ghost") || other.tag.Equals("Enemy_Person"))
         {
             //damage Enemy
            other.GetComponent<EnemyDamageDeath>().enemyHit(gameObject);
