@@ -90,7 +90,7 @@ public class Tutroial : MonoBehaviour
             _textMesh.text = _step2Text;
             NextStep();
         }
-        if (enemie == null && (!enemi1.activeInHierarchy && !enemi2.activeInHierarchy && !enemi3.activeInHierarchy))
+        if (enemie == null && (enemi1 != null && enemi2 != null && enemi3 != null) && (!enemi1.activeInHierarchy && !enemi2.activeInHierarchy && !enemi3.activeInHierarchy))
         {
             _switchTextFeedback.PlayFeedbacks();
             _textMesh.text = _step1P1Text;

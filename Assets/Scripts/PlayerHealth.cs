@@ -39,7 +39,11 @@ public class PlayerHealth : MonoBehaviour
         }
         else{
             _points += Time.deltaTime*_scoreMultiplier;
-            _score.text = "Score:" + (int)_points;
+            if(_score != null)
+            {
+
+                _score.text = "Score:" + (int)_points;
+            }
         }
     }
 
