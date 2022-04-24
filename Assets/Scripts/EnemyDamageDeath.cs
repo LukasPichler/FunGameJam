@@ -18,6 +18,7 @@ public class EnemyDamageDeath : MonoBehaviour
     public Color electroColor;
     public float timeToDissolve = 3f;
 
+    private Color _currentColor;
     [SerializeField]
     private Material _desolveMaterial;
 
@@ -57,6 +58,7 @@ public class EnemyDamageDeath : MonoBehaviour
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
             _clock += Time.deltaTime;
+            _renderer.material.SetColor("_EdgeColor",_currentColor);
             _renderer.material.SetFloat("_CutoffHeight",Mathf.Lerp(fullDissolve, noDissolve, _clock/timeToDissolve));
             if (_clock / timeToDissolve >= 1)
             {
@@ -123,17 +125,17 @@ public class EnemyDamageDeath : MonoBehaviour
     private void enemyDeath(string tag)
     {
         _isDead = true;
-        if (tag. Equals("FireProj"))
+        if (tag.Equals("FireProj"))
         {
-            _renderer.material.SetColor("_EdgeColor", fireColor);
+            _currentColor = fireColor;
         }
         if (tag.Equals("IceProj"))
         {
-            _renderer.material.SetColor("_EdgeColor", iceColor);
+            _currentColor =iceColor;
         }
         if (tag.Equals("ElectroProj"))
         {
-            _renderer.material.SetColor("_EdgeColor", electroColor);
+            _currentColor =electroColor;
         }
         
     }
